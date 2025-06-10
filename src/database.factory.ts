@@ -20,7 +20,7 @@ export class DatabaseFactory implements MongooseOptionsFactory {
 
     const password = encodeURIComponent(dbConfig.password);
 
-    const uri = `mongodb://${user}:${password}@${host}:${port}/${name}`;
+    const uri = `mongodb://${user}:${password}@${host}:${port}/${name}?authSource=admin`;
 
     const serverConfig =
       this.configService.getOrThrow<ServerConfig>(ServerConfigName);
