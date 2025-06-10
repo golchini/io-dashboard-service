@@ -1,98 +1,110 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+<p align="center"> <a href="https://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a> </p> <h1 align="center">🏢 IoT Management Backend for Property Managers</h1> <p align="center"> A multi-tenant backend platform for managing smart devices in buildings – built with <a href="https://nestjs.com" target="_blank">NestJS</a>. </p> <p align="center"> <img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /> <img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="License" /> <img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="Downloads" /> <img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /> </p>
+📌 Project Description
+This is a simplified multi-tenant IoT management backend. It is designed for property managers to monitor smart devices (e.g., heating valves, meters) installed in buildings.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Key Features
+✅ Multi-Tenant Architecture – Each customer (tenant) manages their own buildings and devices.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+📦 Modular NestJS Codebase – Clean and scalable architecture.
 
-## Description
+📊 Device Telemetry – Devices can send and query time-series data.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+🔐 Role-Based Access Control (RBAC) – Admins can manage, viewers can monitor.
 
-## Project setup
+📄 Swagger API Documentation – Auto-generated and interactive.
 
-```bash
-$ npm install
-```
+🏗️ Tech Stack
+Backend Framework: NestJS
 
-## Compile and run the project
+Database: MongoDB (multi-tenant via scoped queries)
 
-```bash
-# development
-$ npm run start
+Auth: JWT + RBAC (Admin / Viewer)
 
-# watch mode
-$ npm run start:dev
+API Docs: Swagger (OpenAPI 3)
 
-# production mode
-$ npm run start:prod
-```
+Containerization: Docker + Docker Compose
 
-## Run tests
+🚀 Getting Started
+1. Clone the Repository
+bash
+Kopieren
+Bearbeiten
+git clone https://github.com/your-org/your-repo-name.git
+cd your-repo-name
+2. Environment Configuration
+Create a .env file in the root:
 
-```bash
-# unit tests
-$ npm run test
+env
+Kopieren
+Bearbeiten
+DB_NAME=thermotrack
+DB_HOST=mongo
+DB_PORT=27017
+DB_USER=d03c4243
+DB_USER_PWD=Spendable-Darling6-During
+Or configure everything directly in docker-compose.yml.
 
-# e2e tests
-$ npm run test:e2e
+🐳 Running with Docker
+Build and start services:
+bash
+Kopieren
+Bearbeiten
+docker-compose up --build
+Access the API
+App: http://localhost:3000
 
-# test coverage
-$ npm run test:cov
-```
+Swagger Docs: http://localhost:3000/api
 
-## Deployment
+🔐 Authentication & Roles
+Admin – Full access to all resources under a tenant.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Viewer – Read-only access to building/device data.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Uses JWT for authentication and custom guards for role protection.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+📡 Endpoints Overview
+Method	Route	Description
+GET	/tenants/:tenantId/buildings	List buildings for a tenant
+POST	/tenants/:tenantId/buildings	Create a building
+GET	/devices/:id/data	Get telemetry data for a device
+POST	/devices/:id/data	Ingest new telemetry data
+POST	/auth/login	Authenticate and get JWT
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Swagger UI available at /api.
 
-## Resources
+🧪 Testing
+bash
+Kopieren
+Bearbeiten
+# Unit tests
+npm run test
 
-Check out a few resources that may come in handy when working with NestJS:
+# E2E tests
+npm run test:e2e
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Coverage
+npm run test:cov
+📦 Build for Production
+bash
+Kopieren
+Bearbeiten
+# Build app
+npm run build
 
-## Support
+# Start with Node
+npm run start:prod
+Or use Docker Compose:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+bash
+Kopieren
+Bearbeiten
+docker-compose -f docker-compose.prod.yml up --build
+📚 Resources
+NestJS Documentation
 
-## Stay in touch
+MongoDB Docs
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Swagger/OpenAPI
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+📝 License
+MIT © [Your Name or Org]
