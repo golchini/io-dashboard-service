@@ -1,15 +1,37 @@
 import { Types } from "mongoose";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class BuildingDto {
-  id: Types.ObjectId;
+
+  @ApiProperty()
+  _id: Types.ObjectId;
+
+  @ApiProperty()
   name: string;
-  floors: number;
-  totalUnits: number;
+
+  @ApiProperty()
   address: string;
+
+  @ApiProperty()
   tenantId: string;
 
-  constructor(building: any) {
-    this.id = building._id;
+  @ApiProperty()
+  floors: number;
+
+  @ApiProperty()
+  totalUnits: number;
+
+  @ApiProperty()
+  status: boolean;
+
+  @ApiProperty()
+  createdAt: string;
+
+  @ApiProperty()
+  updatedAt: string;
+
+  constructor(building: BuildingDto) {
+    this._id = building._id;
     this.name = building.name;
     this.address = building.address;
     this.tenantId = building.tenantId;
