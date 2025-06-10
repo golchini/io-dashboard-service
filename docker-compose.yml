@@ -1,0 +1,36 @@
+
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_USER_PWD}
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  app:
+    build: .
+    container_name: nestjs-app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_HOST: mongo
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_USER_PWD: ${DB_USER_PWD}
+      DB_MIN_POOL_SIZE: ${DB_MIN_POOL_SIZE}
+      DB_MAX_POOL_SIZE: ${DB_MAX_POOL_SIZE}
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  mongo-data:
