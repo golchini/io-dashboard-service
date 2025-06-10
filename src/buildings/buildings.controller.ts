@@ -20,7 +20,7 @@ export class BuildingsController {
     name: 'tenantId',
     required: true,
     type: String,
-    description: 'Mandanten-ID',
+    description: 'Mandanten-ID eines Unternehmens',
   })
   @ApiResponse({
     status: 200,
