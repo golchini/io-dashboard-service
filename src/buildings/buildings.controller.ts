@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Headers, HttpException, BadRequestException } from '@nestjs/common';
 import { BuildingsService } from './buildings.service';
 import { CreateBuildingDto } from './dto/create-building.dto';
 import {
@@ -7,12 +7,16 @@ import {
   ApiParam,
   ApiBody,
   ApiResponse,
+  ApiHeader,
 } from '@nestjs/swagger';
+import { Building } from './schemas/building.schema';
 
 @ApiTags('Buildings') // Gruppierung im Swagger-UI
-@Controller('tenants/:tenantId/buildings')
+@Controller('buildings')
 export class BuildingsController {
-  constructor(private readonly buildingsService: BuildingsService) {}
+  constructor(
+    private readonly buildingsService: BuildingsService,
+    ) {}
 
   @Get()
   @ApiOperation({ summary: 'Alle Gebäude eines Tenants abrufen' })
@@ -30,28 +34,34 @@ export class BuildingsController {
       items: { $ref: '#/components/schemas/CreateBuildingDto' }, // optional
     },
   })
-  findAll(@Param('tenantId') tenantId: string) {
-    return this.buildingsService.findByTenant(tenantId);
+  getBuildings() {
+    return this.buildingsService.getBuildings();
   }
 
   @Post()
   @ApiOperation({ summary: 'Neues Gebäude erstellen' })
-  @ApiParam({
-    name: 'tenantId',
+  @ApiHeader({
+    name: 'x-tenant-id',
     required: true,
-    type: String,
-    description: 'Mandanten-ID',
+    description: 'Mandanten-ID im Header',
+    schema: { type: 'string' },
   })
-  @ApiBody({ type: CreateBuildingDto })
+  @ApiBody({
+    type: CreateBuildingDto,
+    description: 'Gebäude-Daten',
+  })
   @ApiResponse({
     status: 201,
     description: 'Gebäude wurde erfolgreich erstellt.',
-    type: CreateBuildingDto,
   })
-  create(
-    @Param('tenantId') tenantId: string,
+  @ApiResponse({
+    status: 400,
+    description: 'Ungültige Eingabedaten.',
+  })
+  async createBuilding(
     @Body() createBuildingDto: CreateBuildingDto,
-  ) {
-    return this.buildingsService.create(tenantId, createBuildingDto);
+  ) : Promise<Building> {
+
+    return await this.buildingsService.createBuilding(createBuildingDto);
   }
 }

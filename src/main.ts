@@ -10,6 +10,7 @@ async function bootstrap() {
   .setDescription('API Dokumentation für das Dashboard')
   .setVersion('1.0')
   .addTag('Buildings')
+  .addTag('Tenants')
   .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
