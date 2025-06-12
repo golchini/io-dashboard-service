@@ -33,8 +33,8 @@ export class DatabaseFactory implements MongooseOptionsFactory {
       autoIndex: true,
       minPoolSize: minPoolSize,
       maxPoolSize: maxPoolSize,
-      connectTimeoutMS: 60000, // Give up initial connection after 10 seconds
-      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity,
+      connectTimeoutMS: 60000,
+      socketTimeoutMS: 45000,
     };
   }
 }

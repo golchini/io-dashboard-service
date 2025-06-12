@@ -5,26 +5,24 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BuildingsModule } from './buildings/buildings.module';
 import { DatabaseFactory } from './database.factory';
+import { TenantsModule } from './tenants/tenants.module';
 
-// 👇 Diese Imports brauchst du für das Laden der Konfigs
 import databaseConfig from './config/database.config';
 import serverConfig from './config/server.config';
 
 @Module({
   imports: [
-    // 👇 Konfigurationsmodule laden – wichtig!
     ConfigModule.forRoot({
-      isGlobal: true, // Damit überall verfügbar ohne nochmaliges Importieren
+      isGlobal: true,
       load: [databaseConfig, serverConfig],
     }),
 
-    // 👇 Mongoose async Konfiguration
     MongooseModule.forRootAsync({
       useClass: DatabaseFactory,
     }),
 
-    // 👇 Dein Buildings-Modul
     BuildingsModule,
+    TenantsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
